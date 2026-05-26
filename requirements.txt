@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+pymongo
+crewai
+crewai-tools
+langchain-google-genai
+python-dotenv
+pydantic
+anyio
