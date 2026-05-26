@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium AI Support Agent</title>
+    <style>
+        /* Import a clean, modern tech font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            /* Beautiful soft gradient background for the whole page */
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 15px; 
+        }
+
+        .chat-widget {
+            width: 100%; 
+            max-width: 420px; 
+            height: 85vh; 
+            max-height: 700px;
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(255, 140, 0, 0.15), 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .chat-header {
+            /* Eye-catching premium gradient */
+            background: linear-gradient(135deg, #FF8C00, #FF512F);
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Green online indicator dot */
+        .chat-header::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #4ade80; 
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+        }
+
+        .chat-window {
+            flex-grow: 1; 
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-color: #fafbfa;
+        }
+
+        /* Custom smooth scrollbar */
+        .chat-window::-webkit-scrollbar { width: 6px; }
+        .chat-window::-webkit-scrollbar-track { background: transparent; }
+        .chat-window::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+            /* Smooth slide-in animation */
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-msg {
+            background-color: #2b2b2b; /* Sleek dark bubble */
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .agent-msg {
+            background: linear-gradient(135deg, #FFF8F0, #FFF0DB);
+            color: #B23D00;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #FFE4C4;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 16px;
+            background-color: #ffffff;
+            border-top: 1px solid #f0f0f0;
+            flex-shrink: 0;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 14px 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 30px; /* Modern Pill Shape */
+            outline: none;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        .chat-input input:focus {
+            border-color: #FF8C00;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+        }
+
+        .chat-input button {
+            background: linear-gradient(135deg, #FF8C00, #FF512F);
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%; /* Perfect circle */
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 140, 0, 0.4);
+        }
+
+        /* Animated typing indicator dots */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 4px 8px;
+        }
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background-color: #FF8C00;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-widget">
+    <div class="chat-header">Support Agent</div>
+    <div class="chat-window" id="chatWindow">
+        <div class="message agent-msg">How I can help you sir?</div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: translateX(-1px) translateY(1px);"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    async function sendMessage() {
+        const inputField = document.getElementById("userInput");
+        const message = inputField.value.trim();
+        if (!message) return;
+
+        // Show user message
+        appendMessage(message, "user-msg");
+        inputField.value = "";
+        
+        // Show animated typing dots
+        const loadingHtml = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
+        const loadingId = appendRawHTML(loadingHtml, "agent-msg");
+
+        try {
+            // Send request to your FastAPI backend
+            const response = await fetch("http://localhost:8000/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_message: message })
+            });
+            
+            const data = await response.json();
+            
+            // Remove typing dots and add actual response
+            document.getElementById(loadingId).remove();
+            appendMessage(data.response, "agent-msg");
+            
+        } catch (error) {
+            document.getElementById(loadingId).remove();
+            appendMessage("Error: Could not connect to the backend server. Is it running?", "agent-msg");
+            console.error("Fetch Error:", error);
+        }
+    }
+
+    function appendMessage(text, className) {
+        const chatWindow = document.getElementById("chatWindow");
+        const msgDiv = document.createElement("div");
+        const id = "msg-" + Date.now();
+        msgDiv.id = id;
+        msgDiv.className = `message ${className}`;
+        
+        // Convert plain text newlines to HTML breaks for clean formatting
+        msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+        
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        return id;
+    }
+
+    function appendRawHTML(htmlContent, className) {
+        const chatWindow = document.getElementById("chatWindow");
+        const msgDiv = document.createElement("div");
+        const id = "msg-" + Date.now();
+        msgDiv.id = id;
+        msgDiv.className = `message ${className}`;
+        msgDiv.innerHTML = htmlContent;
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        return id;
+    }
+</script>
+
+</body>
+</html>
